@@ -28,79 +28,75 @@ class _GetstartedState extends State<Getstarted> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Appcolor.Primary,
+      // backgroundColor: const Color.fromARGB(4, 213, 197, 194).withOpacity(0.1),
       body: Stack(children: [
+        Container(
+          height: double.infinity,
+          color: Appcolor.textPrimary.withOpacity(0.1),
+          child: Padding(
+              padding:
+                  EdgeInsets.only(top: 50, bottom: 30, left: 20, right: 20),
+              child: SingleChildScrollView(
+                child: Column(children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: PageView(
+                        controller: _Pagecontroller,
+                        onPageChanged: (int page) {
+                          setState(() {
+                            _currentPage = page;
+                          });
+                        },
+                        children: [
+                          Slide_1(),
+                          Slide_2(),
+                          Slide_3(),
+                        ]),
+                  ),
+                ]),
+              )),
+        ),
         Positioned(
-            left: 30,
-            top: 1,
-            child: SizedBox(
-              width: 500,
-              height: 600,
-              child: Image.asset(
-                fit: BoxFit.cover,
-                "Images/BackGround.png",
+          bottom: 40, // Posisikan sesuai kebutuhan
+          left: 0,
+          right: 0,
+          child: Center(
+            child: SmoothPageIndicator(
+              controller: _Pagecontroller,
+              count: 3,
+              effect: WormEffect(
+                dotColor: Appcolor.textPrimary.withOpacity(0.3),
+                dotHeight: 5,
+                spacing: 15,
+                dotWidth: 15,
+                activeDotColor: Appcolor.textPrimary,
               ),
-            )),
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: Container(
-            color: Appcolor.textPrimary.withOpacity(0.2),
-            child: Padding(
-                padding:
-                    EdgeInsets.only(top: 50, bottom: 30, left: 20, right: 20),
-                child: SingleChildScrollView(
-                  child: Column(children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.8,
-                      child: PageView(
-                          controller: _Pagecontroller,
-                          onPageChanged: (int page) {
-                            setState(() {
-                              _currentPage = page;
-                            });
-                          },
-                          children: [
-                            Slide_1(),
-                            Slide_2(),
-                            Slide_3(),
-                          ]),
-                    ),
-                    SmoothPageIndicator(
-                      controller: _Pagecontroller,
-                      count: 3,
-                      effect: WormEffect(
-                        dotColor: Appcolor.textPrimary.withOpacity(0.3),
-                        dotHeight: 5,
-                        spacing: 15,
-                        dotWidth: 15,
-                        activeDotColor: Appcolor.Secondary,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Center(
-                      child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 2,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Appcolor.Secondary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  )),
-                              onPressed: _nextpage,
-                              child: Text(
-                                _currentPage == 2 ? "Mulai" : "Selanjutnya",
-                                style: TextStyle(
-                                    color: Appcolor.Primary,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold),
-                              ))),
-                    )
-                  ]),
-                )),
+            ),
           ),
         ),
+        Positioned(
+          top: 300,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width / 1.5,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Appcolor.textPrimary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        )),
+                    onPressed: _nextpage,
+                    child: Text(
+                      _currentPage == 2 ? "Mulai" : "Selanjutnya",
+                      style: TextStyle(
+                          color: Appcolor.Primary,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold),
+                    ))),
+          ),
+        )
       ]),
     );
   }
@@ -113,25 +109,47 @@ class Slide_3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Text(
-        "Bagikan ke teman kalian , Untuk memantau kesehatan kehamilan dengan lebih mudah",
-        style: TextStyle(
-            color: Appcolor.textPrimary,
-            fontSize: 24,
-            fontWeight: FontWeight.bold),
-      ),
-      SizedBox(height: 40),
-      Text("Mari mulai konsultasi dengan dokter kami di sini !",
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Center(
+          child: Text("MomEase",
+              style: TextStyle(
+                  color: Appcolor.textPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40)),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Center(
+          child: Text(
+            " Siapkan Kehadiran Sang Buah Hati",
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color(0XFF384984)),
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          "Bersama MomEase, Anda tidak hanya memantau kehamilan tetapi juga mempersiapkan diri menyambut kelahiran sang buah hati.",
+          textAlign: TextAlign.justify,
           style: TextStyle(
-            color: Appcolor.textPrimary,
-            fontSize: 24,
-            // fontWeight: FontWeight.bold),
-          )),
-      SizedBox(
-        child: Image.asset("Images/Doctor_slide_3.png"),
-      )
-    ]);
+              color: Colors.black.withOpacity(0.5),
+              fontSize: 19,
+              fontWeight: FontWeight.bold),
+        ),
+        Spacer(),
+        SizedBox(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height / 2.9,
+          child: Image.asset("Images/onboarding/onboarding2.png"),
+        ),
+      ],
+    );
   }
 }
 
@@ -145,18 +163,41 @@ class Slide_2 extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Center(
+          child: Text("MomEase",
+              style: TextStyle(
+                  color: Appcolor.textPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40)),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Center(
+          child: Text(
+            "Fitur Unggulan",
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color(0XFF384984)),
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
         Text(
-          "MomEase dirancang dengan fitur-fitur unggulan untuk memastikan kenyamanan dan keamanan Anda dalam memantau kesehatan kehamilan",
+          "Dengan fitur-fitur inovatif dari MomEase, Anda dapat melacak perkembangan janin, mengatur jadwal pemeriksaan",
+          textAlign: TextAlign.justify,
           style: TextStyle(
-              color: Appcolor.textPrimary,
-              fontSize: 24,
+              color: Colors.black.withOpacity(0.5),
+              fontSize: 19,
               fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 20),
+        Spacer(),
         SizedBox(
           width: double.infinity,
           height: MediaQuery.of(context).size.height / 2.9,
-          child: Image.asset("Images/Slide-2.png"),
+          child: Image.asset("Images/onboarding/onboarding3.png"),
         ),
       ],
     );
@@ -173,18 +214,43 @@ class Slide_1 extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Center(
+          child: Text("MomEase",
+              style: TextStyle(
+                  color: Appcolor.textPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40)),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+
+        Center(
+          child: Text(
+            "Selamat Datang",
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color(0XFF384984)),
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
         Text(
-          "MomEase membantu Anda memantau kesehatan kehamilan dengan mudah",
+          "mitra terpercaya untuk perjalanan kehamilan Anda! Kami hadir untuk membantu Anda memantau setiap momen penting selama kehamilan,",
+          textAlign: TextAlign.justify,
           style: TextStyle(
-              color: Appcolor.textPrimary,
-              fontSize: 30,
+              color: Colors.black.withOpacity(0.5),
+              fontSize: 19,
               fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 20),
+        // SizedBox(height: 50),
+        Spacer(),
         SizedBox(
           width: double.infinity,
           height: MediaQuery.of(context).size.height / 2.9,
-          child: Image.asset("Images/IbuSusu.png"),
+          child: Image.asset("Images/onboarding/onboarding1.png"),
         ),
       ],
     );

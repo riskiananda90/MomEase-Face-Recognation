@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:projectrekammedis/Component/AppColor.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Checkyouremail extends StatefulWidget {
   const Checkyouremail({super.key});
@@ -11,6 +12,16 @@ class Checkyouremail extends StatefulWidget {
 }
 
 class _CheckyouremailState extends State<Checkyouremail> {
+  Future<void> _openEmailApp() async {
+    final Uri emailLaunchUri = Uri(scheme: "mailto");
+
+    if (await canLaunchUrl(emailLaunchUri)) {
+      await launchUrl(emailLaunchUri);
+    } else {
+      Get.snackbar("Error", "Email app not found");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,9 +59,7 @@ class _CheckyouremailState extends State<Checkyouremail> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             backgroundColor: Appcolor.textPrimary),
-                        onPressed: () {
-                          Get.back();
-                        },
+                        onPressed: _openEmailApp,
                         child: Text(
                           "Open Email App",
                           style: TextStyle(color: Appcolor.Primary),

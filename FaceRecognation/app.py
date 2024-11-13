@@ -31,6 +31,11 @@ def save_cropped_face(image, filename):
     else:
         print(f"No face detected for {filename}")
 
+@app.route('/bacaText', methods=['POST'])
+
+
+
+
 @app.route('/authenticate', methods=['POST'])
 def authenticate():
     data = request.json

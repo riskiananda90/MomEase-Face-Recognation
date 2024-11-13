@@ -140,15 +140,15 @@ class _LoginState extends State<Login> {
       User? user = userCredential.user;
 
       if (user != null) {
-        await authenticateFaces(user.uid);
-        // DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        //     .collection("users")
-        //     .doc(user.uid)
-        //     .get();
-        // userData = userDoc.data() as Map<String, dynamic>;
-        // await box.write(user.uid, userData);
-        // await box.write("uidAktif", user.uid);
-        // _showSuccessDialog("Login Berhasil");
+        // await authenticateFaces(user.uid);
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(user.uid)
+            .get();
+        userData = userDoc.data() as Map<String, dynamic>;
+        await box.write(user.uid, userData);
+        await box.write("uidAktif", user.uid);
+        _showSuccessDialog("Login Berhasil");
       } else {
         Navigator.of(context).pop();
         _showErrorDialog("Username atau Password salah");

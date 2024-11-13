@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:badges/badges.dart' as badges;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,6 +10,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../Component/AppColor.dart';
 import '../../Component/NavBattom.dart';
 import 'package:get_storage/get_storage.dart';
+import 'DetailBuah.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -19,11 +22,7 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final box = GetStorage();
-  bool _isChecked1 = false;
-  bool _isChecked2 = false;
-  bool _isChecked3 = false;
-  bool _isChecked5 = false;
-  bool _isChecked6 = false;
+
   int waktu_kehamilan = 124;
   late Color _colorHari;
   late Color _colorMinggu;
@@ -74,111 +73,116 @@ class _HomepageState extends State<Homepage> {
         // Menyembunyikan overlay di sekitarnya
         elevation: 5,
         topRadius: Radius.circular(20), // Radius sudut atas
-        isDismissible: false,
+        // isDismissible: false,
         expand: false,
         context: context,
         builder: (BuildContext context) {
-          return Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20), // Membuat sudut membulat
-              child: Material(
-                color: Appcolor.Primary,
-                child: GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: CustomPaint(
-                      painter: CurvePainter(),
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: 20,
-                            right: 20,
-                            top: 20,
-                            bottom:
-                                MediaQuery.of(context).viewInsets.bottom + 20,
-                          ),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                  height: 100,
-                                  child: Image.asset("Images/logo.png")),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                "Masukan keluhan anda",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Appcolor.textPrimary,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.none),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Form(
-                                key: _formkey,
-                                child: TextFormField(
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Masukan keluhan anda";
-                                    }
-                                    return null;
-                                  },
-                                  controller: _keluhanController,
-                                  style: TextStyle(color: Appcolor.textPrimary),
-                                  cursorColor: Appcolor.textPrimary,
-                                  decoration: InputDecoration(
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: Appcolor.textPrimary),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: Appcolor.textPrimary),
-                                    ),
-                                    hintText: "",
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
+          return BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ClipRRect(
+                borderRadius:
+                    BorderRadius.circular(20), // Membuat sudut membulat
+                child: Material(
+                  color: Appcolor.Primary,
+                  child: GestureDetector(
+                    onTap: () {
+                      FocusScope.of(context).unfocus();
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      child: CustomPaint(
+                        painter: CurvePainter(),
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                              top: 20,
+                              bottom:
+                                  MediaQuery.of(context).viewInsets.bottom + 20,
+                            ),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                    height: 100,
+                                    child: Image.asset("Images/logo.png")),
+                                SizedBox(
+                                  height: 20,
                                 ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Appcolor.textPrimary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  if (_formkey.currentState!.validate()) {
-                                    SimpanDataKeluhan();
-                                  } else {
-                                    _showErrorDialog(
-                                        "Gagal menyimpan data keluhan");
-                                  }
-                                  ;
-                                },
-                                child: Text(
-                                  "Submit",
+                                Text(
+                                  "Masukan keluhan anda",
                                   style: TextStyle(
-                                      color: Appcolor.Primary,
-                                      fontWeight: FontWeight.bold),
+                                      fontSize: 15,
+                                      color: Appcolor.textPrimary,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.none),
                                 ),
-                              )
-                            ],
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Form(
+                                  key: _formkey,
+                                  child: TextFormField(
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Masukan keluhan anda";
+                                      }
+                                      return null;
+                                    },
+                                    controller: _keluhanController,
+                                    style:
+                                        TextStyle(color: Appcolor.textPrimary),
+                                    cursorColor: Appcolor.textPrimary,
+                                    decoration: InputDecoration(
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                            color: Appcolor.textPrimary),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                            color: Appcolor.textPrimary),
+                                      ),
+                                      hintText: "",
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Appcolor.textPrimary,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    if (_formkey.currentState!.validate()) {
+                                      SimpanDataKeluhan();
+                                    } else {
+                                      _showErrorDialog(
+                                          "Gagal menyimpan data keluhan");
+                                    }
+                                    ;
+                                  },
+                                  child: Text(
+                                    "Submit",
+                                    style: TextStyle(
+                                        color: Appcolor.Primary,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -307,80 +311,85 @@ class _HomepageState extends State<Homepage> {
       barrierLabel: 'Close Dialog',
       transitionDuration: Duration(milliseconds: 300),
       pageBuilder: (context, animation1, animation2) {
-        return Align(
-          alignment: Alignment.topRight, // Pojok kanan atas
-          child: Material(
-            color: Colors.transparent,
-            child: Container(
-              margin: EdgeInsets.only(top: 60, right: 10), // Sesuaikan posisi
-              padding: EdgeInsets.all(8),
-              width: 250,
-              decoration: BoxDecoration(
-                color: Appcolor.textPrimary,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 10,
-                    spreadRadius: 1,
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ListTile(
-                    onTap: () {
-                      Navigator.of(context).pop(); // Menutup dialog
-                      Get.toNamed('/Profilpage');
-                    },
-                    title:
-                        Text(style: TextStyle(color: Colors.black), "Profil"),
-                    leading: Icon(Icons.person, color: Colors.black),
-                    trailing: Icon(
-                      Icons.chevron_right,
-                      color: Colors.black,
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Align(
+            alignment: Alignment.topRight, // Pojok kanan atas
+            child: Material(
+              color: Colors.transparent,
+              child: Container(
+                margin: EdgeInsets.only(top: 60, right: 10), // Sesuaikan posisi
+                padding: EdgeInsets.all(8),
+                width: 250,
+                decoration: BoxDecoration(
+                  color: Appcolor.textPrimary,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 15,
+                      spreadRadius: 1,
+                      offset: Offset(0, 2),
                     ),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      Navigator.of(context).pop(); // Menutup dialog
-                      Get.toNamed('/Settingspage');
-                    },
-                    title: Text(
-                        style: TextStyle(color: Colors.black), "Pengaturan"),
-                    leading: Icon(Icons.settings, color: Colors.black),
-                    trailing: Icon(Icons.chevron_right, color: Colors.black),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      Navigator.of(context).pop(); // Menutup dialog
-                      Get.toNamed('/Test');
-                    },
-                    title: Text(style: TextStyle(color: Colors.black), "About"),
-                    leading: Icon(Icons.info, color: Colors.black),
-                    trailing: Icon(Icons.chevron_right, color: Colors.black),
-                  ),
-                  Divider(),
-                  ListTile(
-                    onTap: () {
-                      box.erase().then((_) {
-                        Get.offAllNamed('/Login');
-                      });
-                    },
-                    title: Text(
-                      "Logout",
-                      style: TextStyle(
-                        color: const Color.fromARGB(255, 160, 27, 18),
-                        fontWeight: FontWeight.bold,
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      onTap: () {
+                        Navigator.of(context).pop(); // Menutup dialog
+                        Get.toNamed('/Profilpage');
+                      },
+                      title:
+                          Text(style: TextStyle(color: Colors.black), "Profil"),
+                      leading: Icon(Icons.person, color: Colors.black),
+                      trailing: Icon(
+                        Icons.chevron_right,
+                        color: Colors.black,
                       ),
                     ),
-                    leading: Icon(Icons.logout,
-                        color: const Color.fromARGB(255, 160, 27, 18)),
-                    trailing: Icon(Icons.chevron_right,
-                        color: const Color.fromARGB(255, 160, 27, 18)),
-                  ),
-                ],
+                    ListTile(
+                      onTap: () {
+                        Navigator.of(context).pop(); // Menutup dialog
+                        Get.toNamed('/Settingspage');
+                      },
+                      title: Text(
+                          style: TextStyle(color: Colors.black), "Pengaturan"),
+                      leading: Icon(Icons.settings, color: Colors.black),
+                      trailing: Icon(Icons.chevron_right, color: Colors.black),
+                    ),
+                    ListTile(
+                      onTap: () {
+                        Navigator.of(context).pop(); // Menutup dialog
+                        Get.toNamed('/Test');
+                      },
+                      title:
+                          Text(style: TextStyle(color: Colors.black), "About"),
+                      leading: Icon(Icons.info, color: Colors.black),
+                      trailing: Icon(Icons.chevron_right, color: Colors.black),
+                    ),
+                    Divider(),
+                    ListTile(
+                      onTap: () {
+                        box.erase().then((_) {
+                          Get.offAllNamed('/Login');
+                        });
+                      },
+                      title: Text(
+                        "Logout",
+                        style: TextStyle(
+                          color: const Color.fromARGB(255, 160, 27, 18),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      leading: Icon(Icons.logout,
+                          color: const Color.fromARGB(255, 160, 27, 18)),
+                      trailing: Icon(Icons.chevron_right,
+                          color: const Color.fromARGB(255, 160, 27, 18)),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -646,21 +655,88 @@ class _HomepageState extends State<Homepage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 RekomendasiMakanan(
-                                    title: "Buah",
-                                    gambar: "Images/Logo/buah.png"),
+                                  DetailMenu: () => showDialog(
+                                    context: context,
+                                    builder: (context) => BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                          sigmaX: 10, sigmaY: 10),
+                                      child: Detailbuah(
+                                        title: "Buah",
+                                        gambar: "Images/Detail/DetailBuah.jpg",
+                                        deskripsi:
+                                            "Buah-buahan seperti apel kaya akan vitamin C dan serat, yang membantu menjaga sistem pencernaan ibu hamil tetap sehat dan mendukung sistem kekebalan tubuh.",
+                                      ),
+                                    ),
+                                  ),
+                                  title: "Buah",
+                                  gambar: "Images/Logo/buah.png",
+                                ),
                                 RekomendasiMakanan(
+                                  DetailMenu: () => showDialog(
+                                    context: context,
+                                    builder: (context) => BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                          sigmaX: 10, sigmaY: 10),
+                                      child: Detailbuah(
+                                        title: "Sayur",
+                                        gambar: "Images/Detail/DetailSayur.jpg",
+                                        deskripsi:
+                                            "Sayuran kaya akan folat, serat, dan berbagai vitamin yang penting untuk pertumbuhan janin dan menjaga kesehatan ibu hamil, terutama dalam mendukung fungsi sistem pencernaan.",
+                                      ),
+                                    ),
+                                  ),
                                   title: "Sayur",
                                   gambar: "Images/Logo/sayur.png",
                                 ),
                                 RekomendasiMakanan(
+                                  DetailMenu: () => showDialog(
+                                    context: context,
+                                    builder: (context) => BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                          sigmaX: 10, sigmaY: 10),
+                                      child: Detailbuah(
+                                        title: "Susu",
+                                        gambar: "Images/Detail/DetailSusu.jpg",
+                                        deskripsi:
+                                            "Susu mengandung kalsium, vitamin D, dan protein yang penting untuk perkembangan tulang dan gigi janin serta mendukung kesehatan tulang ibu hamil.",
+                                      ),
+                                    ),
+                                  ),
                                   title: "Susu",
                                   gambar: "Images/Logo/susu.png",
                                 ),
                                 RekomendasiMakanan(
+                                  DetailMenu: () => showDialog(
+                                    context: context,
+                                    builder: (context) => BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                          sigmaX: 10, sigmaY: 10),
+                                      child: Detailbuah(
+                                        title: "Ikan",
+                                        gambar: "Images/Detail/DetailIkan.jpg",
+                                        deskripsi:
+                                            "Ikan, terutama yang kaya akan omega-3 seperti salmon, membantu perkembangan otak dan mata janin. Pilih ikan yang rendah merkuri untuk kesehatan yang optimal.",
+                                      ),
+                                    ),
+                                  ),
                                   title: "Ikan",
                                   gambar: "Images/Logo/ikan.png",
                                 ),
                                 RekomendasiMakanan(
+                                  DetailMenu: () => showDialog(
+                                    context: context,
+                                    builder: (context) => BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                          sigmaX: 10, sigmaY: 10),
+                                      child: Detailbuah(
+                                        title: "Kacang",
+                                        gambar:
+                                            "Images/Detail/DetailKacang.jpg",
+                                        deskripsi:
+                                            "Kacang-kacangan kaya akan protein nabati, zat besi, dan serat, yang mendukung pertumbuhan janin dan mencegah anemia pada ibu hamil.",
+                                      ),
+                                    ),
+                                  ),
                                   title: "Kacang",
                                   gambar: "Images/Logo/kacang.png",
                                 ),
@@ -728,11 +804,11 @@ class RekomendasiMakanan extends StatelessWidget {
     super.key,
     required this.title,
     required this.gambar,
-    this.VoidCallback,
+    this.DetailMenu,
   });
   final String title;
   final String gambar;
-  final VoidCallback;
+  final VoidCallback? DetailMenu;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -740,7 +816,7 @@ class RekomendasiMakanan extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: DetailMenu,
             style: ElevatedButton.styleFrom(
               elevation: 10,
               shape: RoundedRectangleBorder(

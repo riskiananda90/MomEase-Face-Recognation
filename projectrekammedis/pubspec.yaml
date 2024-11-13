@@ -62,6 +62,7 @@ dependencies:
   water_drop_nav_bar: ^2.2.2
   modal_bottom_sheet: ^3.0.0
   table_calendar: ^3.1.2
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +92,8 @@ flutter:
     - Images/User/
     - Images/Logo/
     - Images/User2/
+    - Images/onboarding/
+    - Images/Detail/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
