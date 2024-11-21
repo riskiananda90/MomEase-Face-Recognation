@@ -1,9 +1,9 @@
 import 'dart:ui';
-
+// ignore: non_constant_identifier_names
 import 'package:badges/badges.dart' as badges;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -22,7 +22,8 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final box = GetStorage();
-
+  late YoutubePlayerController _controller;
+  // ignore: non_constant_identifier_names
   int waktu_kehamilan = 124;
   late Color _colorHari;
   late Color _colorMinggu;
@@ -43,6 +44,14 @@ class _HomepageState extends State<Homepage> {
     _colorHari = Appcolor.textPrimary;
     _colorMinggu = Appcolor.Primary;
   }
+
+  final List<String> _listVideo = [
+    '4ZAHX-N-AhM',
+    '4evfiP9cTkk',
+    'aFH1SyFkbDg',
+    'mlKTiG_Ct_Q',
+    'bnQjTwwpjKA',
+  ];
 
   Future<void> SimpanDataKeluhan() async {
     print("Ingin simpan data ...");
@@ -749,7 +758,7 @@ class _HomepageState extends State<Homepage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(" Lihat produk lainnya",
+                          Text(" Temukan solusi ibu sehat",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black54,
@@ -759,30 +768,40 @@ class _HomepageState extends State<Homepage> {
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
-                              children: [
-                                SizedBox(width: 8),
-                                Container(
-                                  height: 150,
-                                  decoration: BoxDecoration(
-                                    color: Appcolor.textPrimary,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: SizedBox(
-                                    width: 300,
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                Container(
-                                  height: 150,
-                                  decoration: BoxDecoration(
-                                    color: Appcolor.textPrimary,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: SizedBox(
-                                    width: 300,
-                                  ),
-                                ),
-                              ],
+                              children: _listVideo.map((videoId) {
+                                return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      margin: EdgeInsets.all(5),
+                                      padding: EdgeInsets.all(2),
+                                      height: 170,
+                                      width: MediaQuery.of(context).size.width /
+                                          1.1,
+                                      decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                              spreadRadius: 1,
+                                              blurRadius: 10,
+                                              color: Colors.black26,
+                                              offset: Offset(0, 2)),
+                                        ],
+                                        color: Appcolor.textPrimary,
+                                        borderRadius: BorderRadius.circular(17),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: YoutubePlayer(
+                                          controller: YoutubePlayerController(
+                                              initialVideoId: videoId,
+                                              flags: YoutubePlayerFlags(
+                                                  autoPlay: false,
+                                                  mute: false,
+                                                  disableDragSeek: true)),
+                                          showVideoProgressIndicator: true,
+                                        ),
+                                      ),
+                                    ));
+                              }).toList(),
                             ),
                           )
                         ],

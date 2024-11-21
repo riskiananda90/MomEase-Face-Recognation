@@ -1,4 +1,7 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../Component/AppColor.dart';
 import '../../Component/NavBattom.dart';
@@ -14,18 +17,17 @@ String FormatDate(DateTime NotificationTime) {
   final Waktu_sekarang = DateTime.now();
   final Selisih_waktu = Waktu_sekarang.difference(NotificationTime);
 
-  if(Selisih_waktu.inSeconds < 60 ){
+  if (Selisih_waktu.inSeconds < 60) {
     return "Baru saja";
-  }else if(Selisih_waktu.inMinutes < 60){
+  } else if (Selisih_waktu.inMinutes < 60) {
     return DateFormat('HH:mm').format(NotificationTime);
-  }else if(Selisih_waktu.inHours < 24){
+  } else if (Selisih_waktu.inHours < 24) {
     return "${Selisih_waktu.inHours} jam yang lalu";
-  }else if(Selisih_waktu.inDays < 7){
+  } else if (Selisih_waktu.inDays < 7) {
     return "${Selisih_waktu.inDays} hari yang lalu";
-  }else {
+  } else {
     return DateFormat('dd/MM/yyyy').format(NotificationTime);
   }
-  
 }
 
 class _RiwayatpageState extends State<Riwayatpage> {
@@ -50,29 +52,37 @@ class _RiwayatpageState extends State<Riwayatpage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ListRiwayat(
-                  title: "Keluhan",
-                  subtitle: "Lihat riwayat keluhan",
-                  icon: Icons.speaker_notes_outlined,
-                  time: DateTime.now(),
-                ),
+                    title: "Keluhan",
+                    subtitle: "Lihat riwayat keluhan",
+                    icon: Icons.speaker_notes_outlined,
+                    time: DateTime.now(),
+                    onTap: () {
+                      Get.toNamed("/Riwayatkeluhan");
+                    }),
                 ListRiwayat(
-                  title: "Quisioner",
-                  subtitle: "Lihat riwayat quisioner",
-                  icon: Icons.quiz_outlined,
-                  time: DateTime.now(),
-                ),
+                    title: "Quisioner",
+                    subtitle: "Lihat riwayat quisioner",
+                    icon: Icons.quiz_outlined,
+                    time: DateTime.now(),
+                    onTap: () {
+                      Get.toNamed("/Riwayatquisioner");
+                    }),
                 ListRiwayat(
-                  title: "Resep",
-                  subtitle: "Lihat riwayat resep",
-                  icon: Icons.medication_outlined,
-                  time: DateTime.now(),
-                ),
+                    title: "Resep",
+                    subtitle: "Lihat riwayat resep",
+                    icon: Icons.medication_outlined,
+                    time: DateTime.now(),
+                    onTap: () {
+                      Get.toNamed("/Riwayatresep");
+                    }),
                 ListRiwayat(
-                  title: "Pemeriksaan",
-                  subtitle: "Lihat riwayat pemeriksaan",
-                  icon: Icons.fact_check_outlined,
-                  time: DateTime.now(),
-                ),
+                    title: "Pemeriksaan",
+                    subtitle: "Lihat riwayat pemeriksaan",
+                    icon: Icons.fact_check_outlined,
+                    time: DateTime.now(),
+                    onTap: () {
+                      Get.toNamed("/Riwayatpemeriksaan");
+                    }),
               ],
             ),
           ),
@@ -89,11 +99,13 @@ class ListRiwayat extends StatelessWidget {
     required this.subtitle,
     required this.icon,
     required this.time,
+    this.onTap,
   });
   final String title;
   final String subtitle;
   final IconData icon;
   final DateTime time;
+  final Function? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +117,11 @@ class ListRiwayat extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             )),
-        onPressed: () => {},
+        onPressed: () {
+          if (onTap != null) {
+            onTap!();
+          }
+        },
         child: ListTile(
           leading: Icon(
             icon,

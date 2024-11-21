@@ -14,7 +14,12 @@ import 'Pages/Login/Login.dart';
 import 'Pages/Notifikasi/Notifikasi.dart';
 import 'Pages/Profil/EditProfil.dart';
 import 'Pages/Profil/ProfilPage.dart';
+import 'Pages/Riwayat/Hasil/hasilPemeriksaan.dart';
+import 'Pages/Riwayat/RiwayatKeluhan.dart';
 import 'Pages/Riwayat/RiwayatPage.dart';
+import 'Pages/Riwayat/RiwayatPemeriksan.dart';
+import 'Pages/Riwayat/RiwayatQuisioner.dart';
+import 'Pages/Riwayat/RiwayatResep.dart';
 import 'Pages/Settings/Ketentuanpage.dart';
 import 'Pages/Settings/SettingsPage.dart';
 import 'Pages/Sign/Sign.dart';
@@ -119,6 +124,26 @@ class MyApp extends StatelessWidget {
             transition: Transition.fadeIn,
             name: "/Notifikasi",
             page: () => const Notifikasi()),
+        GetPage(
+            transition: Transition.fadeIn,
+            name: "/Riwayatkeluhan",
+            page: () => const Riwayatkeluhan()),
+        GetPage(
+            transition: Transition.fadeIn,
+            name: "/Riwayatquisioner",
+            page: () => const Riwayatquisioner()),
+        GetPage(
+            transition: Transition.fadeIn,
+            name: "/Riwayatresep",
+            page: () => const Riwayatresep()),
+        GetPage(
+            transition: Transition.fadeIn,
+            name: "/Riwayatpemeriksaan",
+            page: () => const RiwayatPemeriksaan()),
+        GetPage(
+            transition: Transition.rightToLeft,
+            name: "/Hasilpemeriksaan",
+            page: () => const Hasilpemeriksaan()),
       ],
     );
   }
